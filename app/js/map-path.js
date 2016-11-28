@@ -197,10 +197,17 @@ $(function () {
     },
     arr = new Array();
   var offsetLeft = 5;
-  var offsetTop = -15;
+  var offsetTop = -5;
+  var startArms = "";
+  var endArms = "";
+  var mapSvg = "false";
+  var ArmsSvg = "false";
 
   setMapHandler();
-
+  
+ // $("#map svg").mouseout(function(){mapSvg = true});
+  //console.log(mapSvg);
+  
   function setMapHandler() {
     for (var country in paths) {
       var obj = r.path(paths[country].path);
@@ -208,6 +215,9 @@ $(function () {
       arr[obj.id] = country;
       obj
         .hover(function () {
+          startArms = this.id;
+          mapSvg = "true";
+          console.log(startArms);
           clearTimeout(timerRemove);
           $('#' + arr[this.id]).addClass('selected');
           this.animate({
@@ -227,7 +237,7 @@ $(function () {
           $('#map').next('.point').remove();
           $('#map').after($('<div />').addClass('point'));
           $('.point')
-            .prepend($('<img />').attr('src', imagePath + arr[this.id] + '.png'))
+            .prepend($('<img />').attr('src', imagePath + arr[this.id] + '.png').attr("id","arms"))
             .css({
               left: point.x + offsetLeft,
               top: point.y + offsetTop
@@ -235,11 +245,15 @@ $(function () {
             .fadeIn(100);
         })
         .mouseout(function () {
-          timerRemove = setTimeout(function () {
-            $('.point').fadeOut(100, function () {
+          endArms = this.id;
+          mapSvg = "false";
+          if(startArms != endArms & mapSvg){
+            timerRemove = setTimeout(function () {
+                $('.point').fadeOut(100, function () {
               //
-            });
-          }, 10);
+                });
+            }, 10);
+          }
         })
     }
   }

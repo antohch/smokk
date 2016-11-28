@@ -200,8 +200,6 @@ $(function () {
   var offsetTop = -5;
   var startArms = "";
   var endArms = "";
-  var mapSvg = "false";
-  var ArmsSvg = "false";
 
   setMapHandler();
   
@@ -216,7 +214,6 @@ $(function () {
       obj
         .hover(function () {
           startArms = this.id;
-          mapSvg = "true";
           console.log(startArms);
           clearTimeout(timerRemove);
           $('#' + arr[this.id]).addClass('selected');
@@ -246,8 +243,7 @@ $(function () {
         })
         .mouseout(function () {
           endArms = this.id;
-          mapSvg = "false";
-          if(startArms != endArms & mapSvg){
+          if(startArms != endArms){
             timerRemove = setTimeout(function () {
                 $('.point').fadeOut(100, function () {
               //
